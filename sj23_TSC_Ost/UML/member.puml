@@ -1,0 +1,55 @@
+
+@startuml
+class Member{
+Long id,
+String firstName,
+String lastName,
+String password,
+LocalDate birthDate,
+List<Sports> sportsInterest,
+Role role,
+Address address,
+Team team;
+}
+
+entity Address {
+    String zipCode,
+    String countryCode,
+    String streetName
+}
+
+class Team{
+LocalDate creationDate,
+String name,
+List<Member> members,
+String description;
+}
+
+Enum Role {
+    CAPTAIN,
+    MEMBER,
+    ...
+}
+
+class Sport{
+    String name,
+    String description,
+    SportsType type
+}
+
+Enum SportsType{
+    WINTER,
+    SUMMER,
+    WATER,
+    CONTACT
+}
+
+
+
+Member -down- Sport
+SportsType -left- Sport
+Role -left- Member
+Team -right- Member
+Address -- Member
+
+@enduml
