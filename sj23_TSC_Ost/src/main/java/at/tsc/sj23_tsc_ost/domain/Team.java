@@ -1,11 +1,14 @@
 package at.tsc.sj23_tsc_ost.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.validation.constraints.NotBlank;
@@ -15,13 +18,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Slf4j
-@Table(name = "member")
-public class Member extends AbstractPersistable<Long> {
+@AllArgsConstructor
+@Table(name = "sports")
+public class Team extends AbstractPersistable<Long> {
 
-    @Version
+    @jakarta.persistence.Version
     private Integer Version;
 
     @CreationTimestamp
@@ -30,38 +32,20 @@ public class Member extends AbstractPersistable<Long> {
     @UpdateTimestamp
     private LocalDateTime updateTimeStamp;
 
-    @NotBlank
-    @NotEmpty
-    @Column(name = "first_name")
-    private String firstName;
+    @CreatedDate
+    @NotNull
+    LocalDate creationDate; // Not sure if this is required if we can just use creationTimeStamp
 
-    @NotBlank
     @NotEmpty
-    @Column(name = "last_name")
-    private String lastName;
-
     @NotBlank
-    @NotEmpty
-    @Column(name = "middle_name",unique = true)
-    private String middleName;
-
-    @NotBlank
-    @NotEmpty
-    @Column(length = 8)
-    private String password;
+    @Column(name = "team_name", unique = true)
+    String name;
 
     @NotNull
-    private LocalDate birthDate;
-    private ArrayList<Sports> sports;
+    ArrayList<Member> members;
 
-    @NotNull
-    private Address address;
-
-    private Team team;
-
-    @Enumerated
+    @NotBlank
     @NotEmpty
-    private Role role;
-
+    String description;
 
 }
