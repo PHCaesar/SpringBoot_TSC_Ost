@@ -42,7 +42,7 @@ public class Team extends AbstractPersistable<Long> {
     private String name;
 
     @NotNull
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Member> members;
 
     @NotBlank

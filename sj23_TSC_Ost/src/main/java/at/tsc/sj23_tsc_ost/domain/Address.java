@@ -34,7 +34,6 @@ public class Address {
     @UpdateTimestamp
     private LocalDateTime updateTimeStamp;
 
-
      */
     @NotEmpty
     @NotBlank

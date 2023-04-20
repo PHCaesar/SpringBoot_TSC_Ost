@@ -14,8 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 @Table(name = "sports")
 public class Sports extends AbstractPersistable<Long> {
 

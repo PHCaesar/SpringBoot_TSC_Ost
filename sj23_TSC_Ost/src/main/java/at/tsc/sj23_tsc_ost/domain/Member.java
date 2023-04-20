@@ -44,7 +44,7 @@ public class Member extends AbstractPersistable<Long> {
 
     @NotBlank
     @NotEmpty
-    @Column(name = "middle_name",unique = true)
+    @Column(name = "middle_name")
     private String middleName;
 
     @NotBlank
@@ -55,11 +55,11 @@ public class Member extends AbstractPersistable<Long> {
     @NotNull
     private LocalDate birthDate;
 
-    //Don't use Arraylist as a var datawrapping type instead use List
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Sports> sports;
 
     @NotNull
+    @Embedded
     private Address address;
 
     @NotEmpty

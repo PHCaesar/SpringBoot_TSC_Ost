@@ -7,6 +7,7 @@ import at.tsc.sj23_tsc_ost.domain.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -19,5 +20,4 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     List<Member> getMembersByAddress_CountryCodeAndAddress_ZipCode(String countryCode, String zipCode);
     Member deleteMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
     Member deleteMembersBySportsContaining(Sports sport);
-
 }
