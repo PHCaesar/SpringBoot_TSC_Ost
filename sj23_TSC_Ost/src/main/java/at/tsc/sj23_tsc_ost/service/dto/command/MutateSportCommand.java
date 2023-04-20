@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class MutateSportCommand {
     private String sportName;
-    private String sportDescription;
+    private String sportDescription; // Not sure if these name changes are enough
     private SportsType sportType;
 }

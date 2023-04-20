@@ -10,5 +10,6 @@ public record SportDto(String name, String description, SportsType type) {
         this(sports.getName(),
                 sports.getDescription(),
                 sports.getSportsType());
+        log.debug("SportDto from {} has been built!", sports);
     }
 }
