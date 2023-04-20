@@ -1,9 +1,6 @@
 package at.tsc.sj23_tsc_ost.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,13 +14,14 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sports")
 public class Team extends AbstractPersistable<Long> {
 
-    @jakarta.persistence.Version
+    @Version
     private Integer Version;
 
     @CreationTimestamp
@@ -42,7 +40,8 @@ public class Team extends AbstractPersistable<Long> {
     String name;
 
     @NotNull
-    ArrayList<Member> members;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    List<Member> members;
 
     @NotBlank
     @NotEmpty

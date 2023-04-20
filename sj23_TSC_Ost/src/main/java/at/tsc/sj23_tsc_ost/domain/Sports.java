@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Table(name = "sports")
 public class Sports extends AbstractPersistable<Long> {
 
-    @jakarta.persistence.Version
+    @Version
     private Integer Version;
 
     @CreationTimestamp
@@ -41,5 +41,6 @@ public class Sports extends AbstractPersistable<Long> {
     @Enumerated
     @NotNull
     private SportsType sportsType;
+
 
 }

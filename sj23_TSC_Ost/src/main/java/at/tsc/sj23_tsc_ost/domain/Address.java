@@ -1,6 +1,8 @@
 package at.tsc.sj23_tsc_ost.domain;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,10 +18,14 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Embeddable
 public class Address {
 
-    @jakarta.persistence.Version
+
+    /*
+    Makes almost no sense (Embedded Entity shouldn't be treated equal to a normal Entity)
+
+    @Version
     private Integer Version;
 
     @CreationTimestamp
@@ -28,6 +34,8 @@ public class Address {
     @UpdateTimestamp
     private LocalDateTime updateTimeStamp;
 
+
+     */
     @NotEmpty
     @NotBlank
     private String zipCode;
