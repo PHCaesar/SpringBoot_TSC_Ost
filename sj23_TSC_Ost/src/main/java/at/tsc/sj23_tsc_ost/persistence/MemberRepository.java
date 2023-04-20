@@ -9,15 +9,17 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member,Long> {
     Integer countBySportsContaining(Sports sport);
-    Member getMemberByAddress(Address address);
+    Optional<Member> getMemberByAddress(Address address);
     List<Member> getMemberByTeam(Team team);
-    Member getMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
+    Optional<Member> getMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
     List<Member> getMembersBySportsContaining(Sports sports);
     List<Member> getMembersByAddress_CountryCodeAndAddress_ZipCode(String countryCode, String zipCode);
-    Member deleteMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
-    Member deleteMembersBySportsContaining(Sports sport);
+    Optional<Member> deleteMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
+    Optional<Member> deleteMembersBySportsContaining(Sports sport);
+    Optional<Member> deleteMemberByAddress(Address address);
 }
