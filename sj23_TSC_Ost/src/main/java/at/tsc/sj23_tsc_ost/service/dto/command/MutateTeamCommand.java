@@ -1,46 +1,36 @@
-package at.tsc.sj23_tsc_ost.domain;
+package at.tsc.sj23_tsc_ost.service.dto.command;
 
-import jakarta.persistence.*;
+import at.tsc.sj23_tsc_ost.domain.Member;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "sports")
-public class Sports extends AbstractPersistable<Long> {
+@Builder
+@AllArgsConstructor @NoArgsConstructor
+@Data
+public class MutateTeamCommand {
 
-    @Version
     private Integer version;
-
-    @CreationTimestamp
     private LocalDateTime creationTimeStamp;
-
-    @UpdateTimestamp
     private LocalDateTime updateTimeStamp;
-
-    @NotEmpty
-    @NotBlank
-    @Column(name = "sports_name")
+    private LocalDate creationDate;
     private String name;
-
-    @NotEmpty
-    @NotBlank
-    @Column(name = "sports_description")
+    private List<Member> members;
     private String description;
-
-    @Enumerated
-    @NotNull
-    private SportsType sportsType;
-
 
 }

@@ -1,8 +1,7 @@
 package at.tsc.sj23_tsc_ost.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,11 +17,14 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter @Setter
+@Builder
+@Entity
 @Table(name = "sports")
 public class Team extends AbstractPersistable<Long> {
 
     @Version
-    private Integer Version;
+    private Integer version;
 
     @CreationTimestamp
     private LocalDateTime creationTimeStamp;
@@ -32,19 +34,19 @@ public class Team extends AbstractPersistable<Long> {
 
     @CreatedDate
     @NotNull
-    LocalDate creationDate; // Not sure if this is required if we can just use creationTimeStamp
+    private LocalDate creationDate; // Not sure if this is required if we can just use creationTimeStamp
 
     @NotEmpty
     @NotBlank
     @Column(name = "team_name", unique = true)
-    String name;
+    private String name;
 
     @NotNull
     @ManyToMany(cascade = CascadeType.PERSIST)
-    List<Member> members;
+    private List<Member> members;
 
     @NotBlank
     @NotEmpty
-    String description;
+    private String description;
 
 }

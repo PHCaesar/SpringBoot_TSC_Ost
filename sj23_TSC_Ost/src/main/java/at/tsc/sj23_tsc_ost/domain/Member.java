@@ -1,9 +1,7 @@
 package at.tsc.sj23_tsc_ost.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,12 +17,14 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter @Setter
 @Slf4j
+@Entity
 @Table(name = "member")
 public class Member extends AbstractPersistable<Long> {
 
     @Version
-    private Integer Version;
+    private Integer version;
 
     @CreationTimestamp
     private LocalDateTime creationTimeStamp;
@@ -62,7 +62,8 @@ public class Member extends AbstractPersistable<Long> {
     @NotNull
     private Address address;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @NotEmpty
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Team team;
 
     @Enumerated
