@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
+@Builder
 @Slf4j
 @Entity
 @Table(name = "member")

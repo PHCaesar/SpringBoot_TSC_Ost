@@ -19,7 +19,7 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     Optional<Member> getMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
     List<Member> getMembersBySportsContaining(Sports sports);
     List<Member> getMembersByAddress_CountryCodeAndAddress_ZipCode(String countryCode, String zipCode);
-    Optional<Member> deleteMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
-    Optional<Member> deleteMembersBySportsContaining(Sports sport);
-    Optional<Member> deleteMemberByAddress(Address address);
+    void deleteMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
+    void deleteMembersBySportsContaining(Sports sport);
+    void deleteMemberByAddress(Address address);
 }

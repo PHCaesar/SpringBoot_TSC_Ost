@@ -44,17 +44,20 @@ public class MemberService {
         return validateMember(dto, MessageFormat.format("The Member with the address {0} is not present in the database!",address));
     }
 
-    public Optional<MemberDto> deleteMemberByName(String firstName,String middleName,String lastName){
+    public Optional<MemberDto> deleteMemberByName(String firstName,String middleName,String lastName) {
         Objects.requireNonNull(firstName);
         Objects.requireNonNull(middleName);
         Objects.requireNonNull(lastName);
 
-        return memberRepository.deleteMemberByFirstNameAndLastNameAndMiddleName(firstName,middleName,lastName).map(MemberDto::new);
+        Optional<MemberDto> m = memberRepository.getMemberByFirstNameAndLastNameAndMiddleName(firstName, lastName, middleName).map(MemberDto::new);
+        memberRepository.deleteMemberByFirstNameAndLastNameAndMiddleName(firstName, lastName, middleName);
+        return m;
     }
     public Optional<MemberDto> deleteMemberByAddress(Address address){
         Objects.requireNonNull(address);
-
-        return memberRepository.deleteMemberByAddress(address).map(MemberDto::new);
+        Optional<MemberDto> m = memberRepository.getMemberByAddress(address).map(MemberDto::new);
+        memberRepository.deleteMemberByAddress(address);
+        return m;
     }
 
     // Automatic emptiness validation method
