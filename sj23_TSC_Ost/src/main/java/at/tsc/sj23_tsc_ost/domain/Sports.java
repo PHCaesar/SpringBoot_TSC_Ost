@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
+@Builder
 @Table(name = "sports")
 public class Sports extends AbstractPersistable<Long> {
 

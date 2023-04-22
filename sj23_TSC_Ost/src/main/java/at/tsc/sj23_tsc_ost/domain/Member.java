@@ -61,6 +61,7 @@ public class Member extends AbstractPersistable<Long> {
 
     @NotNull
     @Embedded
+    @Column(unique = true)
     private Address address;
 
     @NotEmpty

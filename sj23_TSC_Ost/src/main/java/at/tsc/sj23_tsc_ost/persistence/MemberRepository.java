@@ -15,10 +15,10 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member,Long> {
     Integer countBySportsContaining(Sports sport);
     Optional<Member> getMemberByAddress(Address address);
-    List<Member> getMemberByTeam(Team team);
+    List<Member> getMembersByTeam(Team team);
     Optional<Member> getMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
     List<Member> getMembersBySportsContaining(Sports sports);
-    List<Member> getMembersByAddress_CountryCodeAndAddress_ZipCode(String countryCode, String zipCode);
+    List<Member> getMembersByAddress_CountryCodeAndAddress_ZipCodeAndAddress_StreetName(String countryCode, String zipCode,String streetName);
     void deleteMemberByFirstNameAndLastNameAndMiddleName(String firstName, String lastName, String MiddleName);
     void deleteMembersBySportsContaining(Sports sport);
     void deleteMemberByAddress(Address address);

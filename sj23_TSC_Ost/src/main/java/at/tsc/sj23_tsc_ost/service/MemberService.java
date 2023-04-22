@@ -34,7 +34,7 @@ public class MemberService {
     }
 
     public List<MemberDto> getMembersByTeam(Team team){
-        return memberRepository.getMemberByTeam(team).stream().map(MemberDto::new).toList();
+        return memberRepository.getMembersByTeam(team).stream().map(MemberDto::new).toList();
     }
 
     public Optional<MemberDto> getMemberByAddress(Address address){
