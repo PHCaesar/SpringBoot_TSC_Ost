@@ -65,7 +65,7 @@ public class Member extends AbstractPersistable<Long> {
     private Address address;
 
     @NotEmpty
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Team team;
 
     @Enumerated

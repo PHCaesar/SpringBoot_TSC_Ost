@@ -1,7 +1,6 @@
 package at.tsc.sj23_tsc_ost.persistence;
 
 import at.tsc.sj23_tsc_ost.domain.*;
-import com.fasterxml.jackson.databind.util.ArrayBuilders;
 import jakarta.transaction.Transactional;
 import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.AfterEach;
@@ -11,14 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @SpringBootTest
-public class MemberRepositoryTest {
+public class MemberRepositoryPropertyTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -79,16 +75,17 @@ public class MemberRepositoryTest {
 
     @Test
     void getMembersBySportsContainingReturnsCorrectMembers() {
-        List<Sports> sports = new ArrayList<Sports>();
-        sports.add(Sports.builder()
-                .name("Handball")
-                .sportsType(SportsType.CONTACT)
-                .description("Sports with ball in hand")
-                .build());
+        List<SportsType> sportsOptions = Arrays.stream(SportsType.values()).toList();
+        List<Sports> sports = sportsOptions.stream().map(x -> Sports.builder()
+                .sportsType(x)
+                .description(RandomString.make(20))
+                .name(RandomString.make(8))
+                .build()).toList();
 
-        Member m =MockMember(sports,null,null);
-        memberRepository.save(m);
-        Assertions.assertEquals(m, memberRepository.getMembersBySportsContaining(sports.get(0)).get(0));
+        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MockMember(sports,null,null,new Random())).toList();
+
+        memberRepository.saveAll(memberList);
+        Assertions.assertEquals(memberList, memberRepository.getMembersBySportsContaining(sports.get(0)));
     }
 
     @Test
@@ -106,17 +103,16 @@ public class MemberRepositoryTest {
     @Test
     @Transactional
     void deleteMembersBySportsContainingDeletesCorrectly(){
-        List<Sports> sports = new ArrayList<Sports>();
-        sports.add(Sports.builder()
-                .name("Handball")
-                .sportsType(SportsType.CONTACT)
-                .description("Sports with ball in hand")
-                .build());
+        List<SportsType> sportsOptions = Arrays.stream(SportsType.values()).toList();
+        List<Sports> sports = sportsOptions.stream().map(x -> Sports.builder()
+                .sportsType(x)
+                .description(RandomString.make(20))
+                .name(RandomString.make(8))
+                .build()).toList();
 
+        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MockMember(sports,null,null,new Random())).toList();
 
-        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MockMember(sports,null,null)).toList();
-
-        List<Member> nonAffectedMembers = IntStream.range(0, 10).mapToObj(x -> MockMember(null,null,null)).toList();
+        List<Member> nonAffectedMembers = IntStream.range(0, 10).mapToObj(x -> MockMember(null,null,null,new Random())).toList();
 
         Assertions.assertEquals(0,memberRepository.findAll().size());
         memberRepository.saveAll(memberList);
@@ -128,37 +124,42 @@ public class MemberRepositoryTest {
     }
 
     public Member BuildMemberWithParts() {
-        List<Sports> sports = new ArrayList<Sports>();
-        sports.add(Sports.builder()
-                .name("Handball")
-                .sportsType(SportsType.CONTACT)
-                .description("Sports with ball in hand")
-                .build());
+        Random randomInstance = new Random();
+        List<Role> roles = Arrays.stream(Role.values()).toList();
+
+        List<SportsType> sportsOptions = Arrays.stream(SportsType.values()).toList();
+        List<Sports> sports = sportsOptions.stream().map(x -> Sports.builder()
+                .sportsType(x)
+                .description(RandomString.make(20))
+                .name(RandomString.make(8))
+                .build()).toList();
+
 
         Team team = Team.builder()
-                .name("A Team")
-                .description("This team is insanely good")
-                .creationDate(LocalDate.now().minusDays(100))
+                .name(RandomString.make(8))
+                .description(RandomString.make(20))
+                .creationDate(LocalDate.now().minusDays(randomInstance.nextInt(200)))
                 .build();
 
-        return MockMember(sports, Role.MEMBER, team);
+        return MockMember(sports, roles.get(randomInstance.nextInt(roles.size())), team, randomInstance);
     }
 
-    public Member MockMember(List<Sports> sports, Role role, Team team){
+    public Member MockMember(List<Sports> sports, Role role, Team team,Random randomInstance){
 
         return Member.builder()
-                .firstName("Philipp")
-                .middleName("Smth")
-                .lastName("Cserich")
+                .firstName(RandomString.make(8))
+                .middleName(RandomString.make(8))
+                .lastName(RandomString.make(8))
                 .sports(sports)
                 .role(role)
                 .team(team)
                 .birthDate(LocalDate.now().minusDays(100))
                 .address(Address.builder()
-                        .countryCode("AT")
-                        .streetName("Meißauergasse")
-                        .zipCode("1220")
+                        .countryCode(RandomString.make(4))
+                        .streetName(RandomString.make(10))
+                        .zipCode(RandomString.make(4))
                         .build())
                 .build();
     }
+
 }
