@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -27,7 +26,7 @@ public class MemberRepositoryPropertyTest {
 
     @Test
     void createMemberInsertsExactData() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithRandomParts();
 
         memberRepository.save(m);
         Assertions.assertEquals(m, memberRepository.findAll().get(0));
@@ -36,7 +35,7 @@ public class MemberRepositoryPropertyTest {
     @Test
     @Transactional
     void deleteMemberByNamesDeletesCorrectly() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithRandomParts();
 
         memberRepository.save(m);
         Assertions.assertEquals(1, memberRepository.count());
@@ -47,7 +46,7 @@ public class MemberRepositoryPropertyTest {
     @Test
     @Transactional
     void deleteMemberByAddressDeletesCorrectly() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithRandomParts();
 
         memberRepository.save(m);
         Assertions.assertEquals(1, memberRepository.count());
@@ -57,7 +56,7 @@ public class MemberRepositoryPropertyTest {
 
     @Test
     void countBySportsContainingReturnsCorrectNumber() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithRandomParts();
 
         memberRepository.save(m);
         Integer count = memberRepository.countBySportsContaining(m.getSports().get(0));
@@ -66,7 +65,7 @@ public class MemberRepositoryPropertyTest {
 
     @Test
     void getMemberByTeamReturnsCorrectMember() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithRandomParts();
 
         memberRepository.save(m);
         Assertions.assertEquals(1, memberRepository.getMembersByTeam(m.getTeam()).stream().count());
@@ -82,7 +81,7 @@ public class MemberRepositoryPropertyTest {
                 .name(RandomString.make(8))
                 .build()).toList();
 
-        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MockMember(sports,null,null,new Random())).toList();
+        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MemberFactory.MockMemberRandomized(sports,null,null,new Random())).toList();
 
         memberRepository.saveAll(memberList);
         Assertions.assertEquals(memberList, memberRepository.getMembersBySportsContaining(sports.get(0)));
@@ -91,7 +90,7 @@ public class MemberRepositoryPropertyTest {
     @Test
     void getMembersByAddress_CountryCodeAndAddress_ZipCodeReturnsCorrectMembers(){
 
-        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> BuildMemberWithParts()).toList();
+        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MemberFactory.BuildMemberWithRandomParts()).toList();
 
         memberRepository.getMembersByAddress_CountryCodeAndAddress_ZipCodeAndAddress_StreetName(
                 memberList.get(0).getAddress().getCountryCode()
@@ -110,9 +109,9 @@ public class MemberRepositoryPropertyTest {
                 .name(RandomString.make(8))
                 .build()).toList();
 
-        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MockMember(sports,null,null,new Random())).toList();
+        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MemberFactory.MockMemberRandomized(sports,null,null,new Random())).toList();
 
-        List<Member> nonAffectedMembers = IntStream.range(0, 10).mapToObj(x -> MockMember(null,null,null,new Random())).toList();
+        List<Member> nonAffectedMembers = IntStream.range(0, 10).mapToObj(x -> MemberFactory.MockMemberRandomized(null,null,null,new Random())).toList();
 
         Assertions.assertEquals(0,memberRepository.findAll().size());
         memberRepository.saveAll(memberList);
@@ -123,43 +122,5 @@ public class MemberRepositoryPropertyTest {
 
     }
 
-    public Member BuildMemberWithParts() {
-        Random randomInstance = new Random();
-        List<Role> roles = Arrays.stream(Role.values()).toList();
-
-        List<SportsType> sportsOptions = Arrays.stream(SportsType.values()).toList();
-        List<Sports> sports = sportsOptions.stream().map(x -> Sports.builder()
-                .sportsType(x)
-                .description(RandomString.make(20))
-                .name(RandomString.make(8))
-                .build()).toList();
-
-
-        Team team = Team.builder()
-                .name(RandomString.make(8))
-                .description(RandomString.make(20))
-                .creationDate(LocalDate.now().minusDays(randomInstance.nextInt(200)))
-                .build();
-
-        return MockMember(sports, roles.get(randomInstance.nextInt(roles.size())), team, randomInstance);
-    }
-
-    public Member MockMember(List<Sports> sports, Role role, Team team,Random randomInstance){
-
-        return Member.builder()
-                .firstName(RandomString.make(8))
-                .middleName(RandomString.make(8))
-                .lastName(RandomString.make(8))
-                .sports(sports)
-                .role(role)
-                .team(team)
-                .birthDate(LocalDate.now().minusDays(100))
-                .address(Address.builder()
-                        .countryCode(RandomString.make(4))
-                        .streetName(RandomString.make(10))
-                        .zipCode(RandomString.make(4))
-                        .build())
-                .build();
-    }
 
 }

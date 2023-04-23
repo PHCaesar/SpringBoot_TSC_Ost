@@ -31,7 +31,7 @@ public class MemberRepositoryTest {
 
     @Test
     void createMemberInsertsExactData() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithParts();
 
         memberRepository.save(m);
         Assertions.assertEquals(m, memberRepository.findAll().get(0));
@@ -40,7 +40,7 @@ public class MemberRepositoryTest {
     @Test
     @Transactional
     void deleteMemberByNamesDeletesCorrectly() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithParts();
 
         memberRepository.save(m);
         Assertions.assertEquals(1, memberRepository.count());
@@ -51,7 +51,7 @@ public class MemberRepositoryTest {
     @Test
     @Transactional
     void deleteMemberByAddressDeletesCorrectly() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithParts();
 
         memberRepository.save(m);
         Assertions.assertEquals(1, memberRepository.count());
@@ -61,7 +61,7 @@ public class MemberRepositoryTest {
 
     @Test
     void countBySportsContainingReturnsCorrectNumber() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithParts();
 
         memberRepository.save(m);
         Integer count = memberRepository.countBySportsContaining(m.getSports().get(0));
@@ -70,7 +70,7 @@ public class MemberRepositoryTest {
 
     @Test
     void getMemberByTeamReturnsCorrectMember() {
-        Member m = BuildMemberWithParts();
+        Member m = MemberFactory.BuildMemberWithParts();
 
         memberRepository.save(m);
         Assertions.assertEquals(1, memberRepository.getMembersByTeam(m.getTeam()).stream().count());
@@ -86,7 +86,7 @@ public class MemberRepositoryTest {
                 .description("Sports with ball in hand")
                 .build());
 
-        Member m =MockMember(sports,null,null);
+        Member m =MemberFactory.MockMember(sports,null,null);
         memberRepository.save(m);
         Assertions.assertEquals(m, memberRepository.getMembersBySportsContaining(sports.get(0)).get(0));
     }
@@ -94,7 +94,7 @@ public class MemberRepositoryTest {
     @Test
     void getMembersByAddress_CountryCodeAndAddress_ZipCodeReturnsCorrectMembers(){
 
-        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> BuildMemberWithParts()).toList();
+        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MemberFactory.BuildMemberWithParts()).toList();
 
         memberRepository.getMembersByAddress_CountryCodeAndAddress_ZipCodeAndAddress_StreetName(
                 memberList.get(0).getAddress().getCountryCode()
@@ -114,9 +114,9 @@ public class MemberRepositoryTest {
                 .build());
 
 
-        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MockMember(sports,null,null)).toList();
+        List<Member> memberList = IntStream.range(0, 10).mapToObj(x -> MemberFactory.MockMember(sports,null,null)).toList();
 
-        List<Member> nonAffectedMembers = IntStream.range(0, 10).mapToObj(x -> MockMember(null,null,null)).toList();
+        List<Member> nonAffectedMembers = IntStream.range(0, 10).mapToObj(x -> MemberFactory.MockMember(null,null,null)).toList();
 
         Assertions.assertEquals(0,memberRepository.findAll().size());
         memberRepository.saveAll(memberList);
@@ -127,38 +127,4 @@ public class MemberRepositoryTest {
 
     }
 
-    public Member BuildMemberWithParts() {
-        List<Sports> sports = new ArrayList<Sports>();
-        sports.add(Sports.builder()
-                .name("Handball")
-                .sportsType(SportsType.CONTACT)
-                .description("Sports with ball in hand")
-                .build());
-
-        Team team = Team.builder()
-                .name("A Team")
-                .description("This team is insanely good")
-                .creationDate(LocalDate.now().minusDays(100))
-                .build();
-
-        return MockMember(sports, Role.MEMBER, team);
-    }
-
-    public Member MockMember(List<Sports> sports, Role role, Team team){
-
-        return Member.builder()
-                .firstName("Philipp")
-                .middleName("Smth")
-                .lastName("Cserich")
-                .sports(sports)
-                .role(role)
-                .team(team)
-                .birthDate(LocalDate.now().minusDays(100))
-                .address(Address.builder()
-                        .countryCode("AT")
-                        .streetName("Meißauergasse")
-                        .zipCode("1220")
-                        .build())
-                .build();
-    }
 }
