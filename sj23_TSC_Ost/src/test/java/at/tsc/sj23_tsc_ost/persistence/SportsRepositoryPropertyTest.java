@@ -3,7 +3,9 @@ package at.tsc.sj23_tsc_ost.persistence;
 import at.tsc.sj23_tsc_ost.domain.Sports;
 import at.tsc.sj23_tsc_ost.domain.SportsType;
 import net.bytebuddy.utility.RandomString;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,11 @@ public class SportsRepositoryPropertyTest {
 
     @Autowired
     private SportRepository sportRepository;
+
+    @AfterEach @BeforeEach
+    void Refresh() {
+        sportRepository.deleteAll();
+    }
 
     @Test
     void findSportsByName(){

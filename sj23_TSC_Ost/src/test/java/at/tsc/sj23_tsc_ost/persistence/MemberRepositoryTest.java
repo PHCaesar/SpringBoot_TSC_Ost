@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +25,7 @@ public class MemberRepositoryTest {
     private MemberRepository memberRepository;
 
 
-    @AfterEach
+    @AfterEach @BeforeEach
     void Refresh() {
         memberRepository.deleteAll();
     }
