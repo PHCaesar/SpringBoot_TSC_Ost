@@ -7,14 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team,Long> {
 
-    Team getTeamByCreationDate(LocalDate creationDate);
-    Team getTeamByName(String name);
-    List<Team> getTeamByMembersContaining(Member member);
-    Team deleteTeamByName(String name);
-
-
+    List<Team> getTeamsByCreationDate(LocalDate creationDate);
+    Optional<Team> getTeamByName(String name);
+    Optional<Team> getTeamByMembersContaining(Member member);
+    void deleteTeamByName(String name);
 }
