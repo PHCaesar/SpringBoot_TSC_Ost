@@ -1,13 +1,11 @@
-package at.tsc.sj23_tsc_ost.presentation;
+package at.tsc.sj23_tsc_ost.presentation.api;
 
 import at.tsc.sj23_tsc_ost.domain.Team;
 import at.tsc.sj23_tsc_ost.service.MemberService;
 import at.tsc.sj23_tsc_ost.service.dto.MemberDto;
-import at.tsc.sj23_tsc_ost.service.dto.TeamDto;
 import at.tsc.sj23_tsc_ost.service.dto.command.MutateTeamCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.loader.ResourceEntry;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.stream.IntStream;
 
 @RestController
 @Slf4j
