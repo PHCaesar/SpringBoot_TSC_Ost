@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.IntStream;
 
 @RestController
 @Slf4j
@@ -31,7 +32,7 @@ public class MemberController {
 
     @GetMapping({"",PATH_INDEX})
     public HttpEntity<List<MemberDto>> getAllMembers(@Valid @RequestParam MutateTeamCommand team){
-
+        List<String> names =memberService.getMembersByTeam(new Team()).stream().map(MemberDto::password).toList();
         //TeamDto dto = new TeamDto();
         return ResponseEntity.ok(memberService.getMembersByTeam(new Team()));
     }
