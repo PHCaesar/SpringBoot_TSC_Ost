@@ -4,6 +4,8 @@ import at.tsc.sj23_tsc_ost.domain.Address;
 import at.tsc.sj23_tsc_ost.domain.Role;
 import at.tsc.sj23_tsc_ost.domain.Sports;
 import at.tsc.sj23_tsc_ost.domain.Team;
+import at.tsc.sj23_tsc_ost.service.dto.MemberDto;
+import at.tsc.sj23_tsc_ost.service.dto.TeamDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +26,6 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 public class MutateMemberCommand {
 
-    private Integer version;
-    private LocalDateTime creationTimeStamp;
     private LocalDateTime updateTimeStamp;
     private String firstName;
     private String lastName;
@@ -36,4 +36,5 @@ public class MutateMemberCommand {
     private Address address;
     private Team team;
     private Role role;
+
 }

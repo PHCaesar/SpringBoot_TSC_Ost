@@ -26,6 +26,10 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    public List<MemberDto> getAllMembers(){
+        return memberRepository.findAll().stream().map(MemberDto::new).toList();
+    }
+
     public Optional<MemberDto> getMembersByName(String firstName,String middleName,String lastName){
         Objects.requireNonNull(firstName);
         Objects.requireNonNull(lastName);
@@ -36,8 +40,12 @@ public class MemberService {
         return validateMember(dto,MessageFormat.format("The Member with the name {0} {1} {2} could not be found",firstName,middleName,lastName));
     }
 
-    public List<MemberDto> getMembersByTeam(Team team){
-        return memberRepository.getMembersByTeam(team).stream().map(MemberDto::new).toList();
+    public List<MemberDto> getMembersByTeam(MutateTeamCommand team){
+        return memberRepository.getMembersByTeam(Team.builder()
+                .members(team.getMembers())
+                .name(team.getName())
+                .description(team.getDescription())
+                .creationDate(team.getCreationDate()).build()).stream().map(MemberDto::new).toList();
     }
 
     public Optional<MemberDto> getMemberByAddress(Address address){
@@ -61,6 +69,19 @@ public class MemberService {
         Optional<MemberDto> m = memberRepository.getMemberByAddress(address).map(MemberDto::new);
         memberRepository.deleteMemberByAddress(address);
         return m;
+    }
+
+    public Long createMember(MutateMemberCommand member){
+        return memberRepository.save(Member.builder()
+                .birthDate(member.getBirthDate())
+                .role(member.getRole())
+                .sports(member.getSports())
+                .team(member.getTeam())
+                .address(member.getAddress())
+                .creationTimeStamp(member.getUpdateTimeStamp())
+                .password(member.getPassword())
+                .build()).getId();
+
     }
 
     // Automatic emptiness validation

@@ -25,8 +25,6 @@ import java.util.List;
 @Data
 public class MutateTeamCommand {
 
-    private Integer version;
-    private LocalDateTime creationTimeStamp;
     private LocalDateTime updateTimeStamp;
     private LocalDate creationDate;
     private String name;
