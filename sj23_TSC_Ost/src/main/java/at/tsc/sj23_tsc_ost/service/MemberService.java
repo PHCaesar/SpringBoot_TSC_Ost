@@ -6,6 +6,7 @@ import at.tsc.sj23_tsc_ost.domain.Team;
 import at.tsc.sj23_tsc_ost.persistence.MemberRepository;
 import at.tsc.sj23_tsc_ost.service.dto.MemberDto;
 import at.tsc.sj23_tsc_ost.service.dto.command.MutateMemberCommand;
+import at.tsc.sj23_tsc_ost.service.dto.command.MutateTeamCommand;
 import jdk.jfr.Frequency;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -28,6 +30,7 @@ public class MemberService {
         Objects.requireNonNull(firstName);
         Objects.requireNonNull(lastName);
         Objects.requireNonNull(middleName);
+        memberRepository.getMemberByAddress(new Address()).map(MemberDto::new);
 
         Optional<MemberDto> dto = memberRepository.getMemberByFirstNameAndLastNameAndMiddleName(firstName, middleName, lastName).map(MemberDto::new);
         return validateMember(dto,MessageFormat.format("The Member with the name {0} {1} {2} could not be found",firstName,middleName,lastName));
@@ -60,7 +63,7 @@ public class MemberService {
         return m;
     }
 
-    // Automatic emptiness validation method
+    // Automatic emptiness validation
     public Optional<MemberDto> validateMember(Optional<MemberDto> dto,String errMsg){
         if(dto.isEmpty()) {
             log.error(errMsg);
