@@ -30,6 +30,10 @@ public class MemberService {
         return memberRepository.findAll().stream().map(MemberDto::new).toList();
     }
 
+    public Optional<MemberDto> getMemberById(Long id){
+        return memberRepository.findById(id).map(MemberDto::new);
+    }
+
     public Optional<MemberDto> getMembersByName(String firstName,String middleName,String lastName){
         Objects.requireNonNull(firstName);
         Objects.requireNonNull(lastName);
@@ -73,13 +77,13 @@ public class MemberService {
 
     public Long createMember(MutateMemberCommand member){
         return memberRepository.save(Member.builder()
-                .birthDate(member.getBirthDate())
+                .birthDate(member.getMutateBirthDate())
                 .role(member.getRole())
                 .sports(member.getSports())
                 .team(member.getTeam())
                 .address(member.getAddress())
                 .creationTimeStamp(member.getUpdateTimeStamp())
-                .password(member.getPassword())
+                .password(member.getMutatePassword())
                 .build()).getId();
 
     }

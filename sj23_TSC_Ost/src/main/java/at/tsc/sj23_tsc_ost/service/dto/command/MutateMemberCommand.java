@@ -27,11 +27,11 @@ import java.util.List;
 public class MutateMemberCommand {
 
     private LocalDateTime updateTimeStamp;
-    private String firstName;
-    private String lastName;
-    private String middleName;
-    private String password;
-    private LocalDate birthDate;
+    private String mutateFirstname;
+    private String mutateLastname;
+    private String mutateMiddleName;
+    private String mutatePassword;
+    private LocalDate mutateBirthDate;
     private List<Sports> sports;
     private Address address;
     private Team team;
