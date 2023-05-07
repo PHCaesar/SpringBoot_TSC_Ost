@@ -2,6 +2,7 @@ package at.tsc.sj23_tsc_ost.persistence;
 
 import at.tsc.sj23_tsc_ost.domain.*;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -10,10 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.IntStream;
 
 @SpringBootTest
+@Slf4j
 public class MemberRepositoryPropertyTest {
 
     @Autowired

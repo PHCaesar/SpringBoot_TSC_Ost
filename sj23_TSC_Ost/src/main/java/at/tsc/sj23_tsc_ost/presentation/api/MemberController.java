@@ -34,10 +34,6 @@ public class MemberController extends AbstractRestController {
     public HttpEntity<List<MemberDto>> getAllMembers(){
 
         Team t = Team.builder().description("nice Team").name("TSC OST").build();
-        memberService.createMember(MutateMemberCommand.builder().mutateFirstname("BOII").team(t).build());
-
-        memberService.createMember(MutateMemberCommand.builder().mutateFirstname("Nico").team(t).build());
-
         return ResponseEntity.ok(wrappedServiceException(memberService::getAllMembers));
     }
 

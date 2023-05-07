@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -39,6 +40,8 @@ public class MemberService {
         Objects.requireNonNull(lastName);
         Objects.requireNonNull(middleName);
         memberRepository.getMemberByAddress(new Address()).map(MemberDto::new);
+
+
 
         Optional<MemberDto> dto = memberRepository.getMemberByFirstNameAndLastNameAndMiddleName(firstName, middleName, lastName).map(MemberDto::new);
         return validateMember(dto,MessageFormat.format("The Member with the name {0} {1} {2} could not be found",firstName,middleName,lastName));
