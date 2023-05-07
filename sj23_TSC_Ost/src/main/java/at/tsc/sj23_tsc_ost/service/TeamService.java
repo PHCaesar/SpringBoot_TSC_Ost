@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,7 +27,7 @@ public class TeamService {
     public Optional<TeamDto> getTeamByName(String name){
         Objects.requireNonNull(name);
 
-        Optional<TeamDto> dto = teamRepository.getTeamByName(name).map(TeamDto::new);
+        Optional<TeamDto> dto = teamRepository.getTeamByName(name);
         String errorMessage = MessageFormat.format("TeamDto:{0} is empty", name);
         return validateTeam(dto, errorMessage);
 
@@ -37,6 +40,21 @@ public class TeamService {
         }
         else{
             return teamDto;
+        }
+    }
+
+    public List<TeamDto> getTeamsByCreationDate(LocalDate creationDate){
+        Objects.requireNonNull(creationDate);
+
+        List<TeamDto> teams = teamRepository.getTeamsByCreationDate(creationDate);
+
+        if(teams.isEmpty()){
+            String error = String.format("No Teams found with creationDate of %s",creationDate);
+            log.warn(error);
+            throw new NoSuchElementException(error);
+        }
+        else{
+            return teams;
         }
     }
 }
